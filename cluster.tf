@@ -103,3 +103,33 @@ resource "aws_eks_node_group" "main" {
   }
 }
 
+# Second Node Group - Larger instances for heavier workloads
+resource "aws_eks_node_group" "high_data" {
+  cluster_name    = aws_eks_cluster.main.name
+  node_group_name = "${var.cluster_name}-highmem-ng"
+  node_role_arn   = aws_iam_role.node_group.arn
+  subnet_ids      = aws_subnet.private[*].id
+
+  scaling_config {
+    desired_size = 2
+    min_size     = 1
+    max_size     = 4
+  }
+
+  instance_types = ["m5.large"]
+
+  update_config {
+    max_unavailable = 1
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
+  ]
+
+  tags = {
+    Name = "${var.cluster_name}-highmem-ng"
+    Role = "high-data"
+  }
+}
