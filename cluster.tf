@@ -106,7 +106,7 @@ resource "aws_eks_node_group" "main" {
 # Second Node Group - Larger instances for heavier workloads
 resource "aws_eks_node_group" "high_data" {
   cluster_name    = aws_eks_cluster.main.name
-  node_group_name = "${var.cluster_name}-highmem-ng"
+  node_group_name = "${var.cluster_name}-node-data"
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = aws_subnet.private[*].id
 
@@ -129,7 +129,7 @@ resource "aws_eks_node_group" "high_data" {
   ]
 
   tags = {
-    Name = "${var.cluster_name}-highmem-ng"
-    Role = "high-data"
+    Name = "${var.cluster_name}-node-data"
+    Role = "data"
   }
 }
