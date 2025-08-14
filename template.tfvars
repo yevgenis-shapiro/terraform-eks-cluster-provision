@@ -3,6 +3,7 @@
 ###  ---  Default Template  ---  ###
 # EKS Cluster Name
 cluster_name = "eks-cluster"
+region = "us-west-2"
 # First Node Group Configuration (General purpose)
 general_desired_size = 2
 general_min_size     = 1
