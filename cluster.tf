@@ -104,7 +104,7 @@ resource "aws_eks_node_group" "main" {
 }
 
 # Second Node Group - Larger instances for heavier workloads
-resource "aws_eks_node_group" "high_data" {
+resource "aws_eks_node_group" "data" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "${var.cluster_name}-node-data"
   node_role_arn   = aws_iam_role.node_group.arn
