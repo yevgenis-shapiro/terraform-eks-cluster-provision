@@ -5,9 +5,9 @@ NeuVector Full Lifecycle Container Security Platform delivers the only cloud-nat
 
 🧱 Core Components
 ```
-✅ 
-🧩
-✅ 
+✅ EKS Cluster
+✅ CSI & CNI Drivers
+✅ Deployment
 ```
 
 
