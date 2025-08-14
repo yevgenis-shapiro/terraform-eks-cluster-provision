@@ -103,19 +103,3 @@ resource "aws_eks_node_group" "main" {
   }
 }
 
-# Outputs
-output "node_group_name" {
-  value = aws_eks_node_group.main.node_group_name
-}
-
-output "node_group_arn" {
-  value = aws_eks_node_group.main.arn
-}
-
-output "node_group_status" {
-  value = aws_eks_node_group.main.status
-}
-
-output "node_group_security_group_id" {
-  value = aws_security_group.node_group.id
-}
