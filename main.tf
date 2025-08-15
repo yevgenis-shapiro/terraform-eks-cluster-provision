@@ -35,7 +35,6 @@ provider "kubernetes" {
   }
 }
 
-# Helm provider
 provider "helm" {
   kubernetes {
     host                   = data.aws_eks_cluster.main.endpoint
@@ -50,4 +49,38 @@ data "aws_availability_zones" "available" {
 
 locals {
   azs = slice(data.aws_availability_zones.available.names, 0, 3)
+}
+
+# Get cluster authentication data
+data "aws_eks_cluster" "main" {
+  name = aws_eks_cluster.main.name
+}
+
+data "aws_eks_cluster_auth" "main" {
+  name = aws_eks_cluster.main.name
+}
+
+resource "helm_release" "nginx_ingress" {
+  name       = "nginx-ingress"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  namespace  = "ingress-nginx"
+
+  create_namespace = true
+
+  values = [
+    yamlencode({
+      controller = {
+        replicaCount = 2
+        service = {
+          type = "LoadBalancer"
+        }
+      }
+    })
+  ]
+
+  depends_on = [
+    aws_eks_node_group.main,
+    aws_eks_node_group.data
+  ]
 }
