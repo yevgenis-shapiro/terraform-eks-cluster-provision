@@ -116,7 +116,7 @@ resource "aws_eks_node_group" "data" {
     max_size     = 4
   }
 
-  instance_types = ["m5.large"]
+  instance_types = ["t3.medium"]
 
   update_config {
     max_unavailable = 1
